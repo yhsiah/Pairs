@@ -1,6 +1,7 @@
 const cards = []
-const suits = [ "Spades", "Clubs", "Diamonds", "Hearts"]
+const suits = ["Spades", "Clubs", "Diamonds", "Hearts"]
 const pictures = ["Jack", "Queen", "King", "Ace"]
+const selectedCards = document.getElementsByClassName('selected')
 
 const createNumberCards = (suit) => {
     for (let index = 2; index < 11; index++) {
@@ -23,7 +24,6 @@ const createPictureCards = (suit) => {
 }
 
 const createCards = () => {
-
     suits.forEach((suit) => {
         createNumberCards(suit)
         createPictureCards(suit)
@@ -61,7 +61,20 @@ const addCardListeners = () => {
 }
 
 const selectCard = (card) => {
-    card.classList.toggle('selected')
+    if (selectedCards.length > 1) {
+        deselectCards()
+    }
+    else {
+        card.classList.toggle('selected')
+        console.log("selected cards = " + selectedCards.length)
+    }
+}
+
+const deselectCards = () => {
+        document.querySelectorAll('.selected').forEach(card => {
+            card.classList.remove("selected")
+        })
+        console.log("selected cards reset to " + selectedCards.length)
 }
 
 const initialize = () => {

@@ -6,7 +6,7 @@ html {
 .card {
     display: inline-block;
     width: 150px;
-    height: 400px;
+    height: 250px;
     color: goldenrod;
     background-color: goldenrod; 
     border: 1px solid blueviolet;
