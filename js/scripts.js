@@ -6,7 +6,7 @@ const selectedCards = document.getElementsByClassName('selected')
 const createNumberCards = (suit) => {
     for (let index = 2; index < 11; index++) {
         const card = document.createElement("div")
-        card.className = "card " + index + " " + assignCardColour(suit)
+        card.className = "card " + index + " unmatched " + assignCardColour(suit)
         card.id = index + "-of-" + suit
         card.innerHTML = index + " of " + suit
         cards.push(card)
@@ -16,7 +16,7 @@ const createNumberCards = (suit) => {
 const createPictureCards = (suit) => {
     pictures.forEach(picture => {
         const card = document.createElement("div")
-        card.className = "card " + picture + " " + assignCardColour(suit)
+        card.className = "card " + picture + " unmatched " + assignCardColour(suit)
         card.id = picture + "-of-" + suit
         card.innerHTML = picture + " of " + suit
         cards.push(card)
@@ -105,13 +105,22 @@ const cardMatchChecker = (selectedCards) => {
     if (selectedCards[0].className == selectedCards[1].className) {
         console.log("Match!")
         document.querySelectorAll('.selected').forEach(card => {
+            card.classList.remove("unmatched")
             card.classList.add("matched")
             card.classList.remove("selected")
             console.log("Removing matching cards")
+            gameFinishedChecker()
         })
     }
     else {
         console.log("No matching cards found")
+    }
+}
+
+const gameFinishedChecker = () => {
+    const unmatchedCards = document.getElementsByClassName('unmatched')
+    if (unmatchedCards.length == 0) {
+        alert("Well done! You've got too much time on your hands...")
     }
 }
 
