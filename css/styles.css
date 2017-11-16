@@ -18,3 +18,9 @@ html {
     background-color: blanchedalmond;
     color: purple;
 }
+
+.matched {
+    color: white;
+    background-color: white;
+    border: 1px solid white;
+}

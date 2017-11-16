@@ -6,8 +6,8 @@ const selectedCards = document.getElementsByClassName('selected')
 const createNumberCards = (suit) => {
     for (let index = 2; index < 11; index++) {
         const card = document.createElement("div")
-        card.className = "card"
-        card.id = "card-" + index + "-of-" + suit
+        card.className = "card " + index + " " + assignCardColour(suit)
+        card.id = index + "-of-" + suit
         card.innerHTML = index + " of " + suit
         cards.push(card)
     }
@@ -16,18 +16,27 @@ const createNumberCards = (suit) => {
 const createPictureCards = (suit) => {
     pictures.forEach(picture => {
         const card = document.createElement("div")
-        card.className = "card"
-        card.id = "card-" + picture + "-of-" + suit
+        card.className = "card " + picture + " " + assignCardColour(suit)
+        card.id = picture + "-of-" + suit
         card.innerHTML = picture + " of " + suit
         cards.push(card)
     })
+}
+
+const assignCardColour = (suit) => {
+    if (suit == "Spades" || suit == "Clubs") {
+        return "black"
+    }
+    else {
+        return "red"
+    }
 }
 
 const createCards = () => {
     suits.forEach((suit) => {
         createNumberCards(suit)
         createPictureCards(suit)
-        console.log(cards)
+        console.log("Cards created")
     })
 }
 
@@ -45,6 +54,7 @@ const randomizeCards = () => {
         cards[currentIndex] = cards[randomIndex]
         cards[randomIndex] = temporaryValue
     }
+    console.log("Cards randomized")
 }
 
 const renderCards = () => {
@@ -52,29 +62,57 @@ const renderCards = () => {
     cards.forEach(card => {
         container.appendChild(card)
     })
+    console.log("Cards rendered")
 }
 
 const addCardListeners = () => {
     document.querySelectorAll('.card').forEach(card => {
-        card.onclick = e => selectCard(e.target)
-    });
+        card.onclick = e => clickCard(e.target)
+    })
+    console.log("Card listeners added")
 }
 
-const selectCard = (card) => {
+const clickCard = (card) => {
+    console.log("Card clicked")
     if (selectedCards.length > 1) {
+        cardMatchChecker(selectedCards)
         deselectCards()
     }
     else {
+        selectCard(card)
+    }
+}
+
+const selectCard = (card) => {
+    if (card.classList.contains('matched')) {
+        console.log("Cannot select an already matched card")
+    }
+    else {
         card.classList.toggle('selected')
-        console.log("selected cards = " + selectedCards.length)
+        console.log("Selected cards = " + selectedCards.length)
     }
 }
 
 const deselectCards = () => {
+    document.querySelectorAll('.selected').forEach(card => {
+        card.classList.remove("selected")
+    })
+    console.log("Selected cards reset to " + selectedCards.length)
+}
+
+const cardMatchChecker = (selectedCards) => {
+    console.log("Checking two cards...")
+    if (selectedCards[0].className == selectedCards[1].className) {
+        console.log("Match!")
         document.querySelectorAll('.selected').forEach(card => {
+            card.classList.add("matched")
             card.classList.remove("selected")
+            console.log("Removing matching cards")
         })
-        console.log("selected cards reset to " + selectedCards.length)
+    }
+    else {
+        console.log("No matching cards found")
+    }
 }
 
 const initialize = () => {
@@ -88,4 +126,3 @@ window.onload = () => {
     initialize()
 
 }
-
